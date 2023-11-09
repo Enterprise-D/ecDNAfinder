@@ -1,8 +1,9 @@
 import os
-import pandas as pd
-import numpy as np
-import pygini
 import sys
+
+import numpy as np
+import pandas as pd
+import pygini
 
 # %%
 cell_dir = sys.argv[1]
@@ -22,7 +23,7 @@ output_directory = script_dir + "/" + "ecDNA_prediction_" + sample_name
 output_file_path = output_directory + '/' + cell_name + '.txt'
 
 if (not os.path.exists(path_bed_graph)) or (not os.path.exists(path_contact_matrix)):
-    print(cell_name + ": one or more file(s) not exist.")
+    print("Cell", cell_name, "error: one or more file(s) not exist.")
     exit(1)
 
 # %%
@@ -30,7 +31,7 @@ res = pd.read_table(path_bed_graph, header=None)
 mat = pd.read_table(path_contact_matrix)
 
 if len(res) == 0 or len(mat) == 0:
-    print(cell_name + ": one or more file(s) not valid.")
+    print("Cell", cell_name, "error: one or more file(s) not valid.")
     exit(2)
 # %%
 num_chr = 23
@@ -57,7 +58,6 @@ for j in range(len(res)):
 
     for k in range(num_chr):
         rec.at[j, name_chr[k]] = np.sum(inter['chrom2'] == name_chr[k])
-
 
 # %%
 res['gini'] = np.nan
@@ -88,4 +88,4 @@ if not os.path.exists(output_directory):
 
 res.to_csv(output_file_path, sep='\t', index=False, header=True, quoting=0)
 
-print(cell_name + ": finished.")
+print("Cell", cell_name, "processed.")

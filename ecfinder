@@ -37,7 +37,7 @@ if [[ -z $script_dir || -z $lm_path || -z $cnv_name || -z $mat_name || -z $input
   exit 1
 fi
 
-echo "Found $(echo "$directories" | wc -l | sed 's/^[[:space:]]*//') cell(s)"
+echo "ecFinder found $(echo "$directories" | wc -l | sed 's/^[[:space:]]*//') cell(s)"
 
 # Export variables so they can be accessed by parallel
 export script_dir

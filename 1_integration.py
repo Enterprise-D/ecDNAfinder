@@ -1,6 +1,7 @@
-import pandas as pd
 import os
 import sys
+
+import pandas as pd
 
 cell_directory = sys.argv[1]
 script_directory = sys.argv[2]
@@ -19,7 +20,7 @@ output_directory = script_directory + "/" + "ecDNA_summary_" + sample_name
 prediction_file_list = os.listdir(prediction_directory)
 
 cell_file_list = os.listdir(input_directory)
-cell_file_list = [file for file in cell_file_list if not file.lower().endswith('.ds_store')] # for macOS compatibility
+cell_file_list = [file for file in cell_file_list if not file.lower().endswith('.ds_store')]  # for macOS compatibility
 
 # %%
 
@@ -64,8 +65,6 @@ final_ratio.to_csv(f'{output_directory}/{sample_name}_ratio.txt', sep='\t', inde
 final_gini.to_csv(f'{output_directory}/{sample_name}_gini.txt', sep='\t', index=False)
 final_pred.to_csv(f'{output_directory}/{sample_name}_pred.txt', sep='\t', index=False)
 
-print("All cells summarized.")
-
 # %%
 binary_pred = final_pred.iloc[:, 3:].copy()
 for i in range(len(binary_pred.columns)):
@@ -80,3 +79,5 @@ final_count_freq.columns = ['chr', 'start', 'end', 'count', 'freq']
 final_count_freq.to_csv(f'{output_directory}/{sample_name}_count_freq.txt', sep='\t', index=False)
 
 # %%
+
+print("Sample", sample_name, "summarized.")
