@@ -27,6 +27,15 @@
 
 Note: see **File format requirements** for examples. File names are currently hard-coded in `ecfinder` script. Modify them if needed.
 
+## Installation
+
+We recommend to run `ecfinder` in a conda/mamba environment.
+```bash
+conda create -n ecfinder python parallel pandas numpy
+pip install pygini
+```
+Then clone this repository to a local directory.
+
 ## Usage
 
 ### 1. ecfinder
@@ -129,3 +138,5 @@ chr1	1000000	2000000	chr20	61000000	62000000	1
 ## References
 
 * O. Tange (2011): GNU Parallel - The Command-Line Power Tool, The USENIX Magazine, February 2011:42-47.
+* Yin, L. et al. rMVP: A Memory-efficient, Visualization-enhanced, and Parallel-accelerated tool for Genome-Wide Association Study, Genomics, Proteomics & Bioinformatics (2021), doi: 10.1016/j.gpb.2020.10.007.
+* 
