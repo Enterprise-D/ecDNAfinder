@@ -31,7 +31,7 @@ summary_only_lower=$(echo "$summary_only" | tr '[:upper:]' '[:lower:]')
 
 if [[ "$summary_only_lower" != "1" && "$summary_only_lower" != "true" && "$summary_only_lower" != "t" ]]; then
   echo "Processing mode."
-  echo "ecFinder found $(echo "$directories" | wc -l | sed 's/^[[:space:]]*//') cell(s)"
+  echo "ecfinder found $(echo "$directories" | wc -l | sed 's/^[[:space:]]*//') cell(s)"
 
   export script_dir
   export cell_name
@@ -44,7 +44,7 @@ if [[ "$summary_only_lower" != "1" && "$summary_only_lower" != "true" && "$summa
 
   execute_command() {
     cell_dir="$1"
-    python $script_dir/0_processing_per_cell.py "$cell_dir" "$script_dir" "$lm_path" "$cnv_name" "$mat_name" "$input_dir" "$output_dir" "$prob_cutoff"
+    python $script_dir/_process.py "$cell_dir" "$script_dir" "$lm_path" "$cnv_name" "$mat_name" "$input_dir" "$output_dir" "$prob_cutoff"
   }
 
   export -f execute_command
@@ -56,6 +56,6 @@ else
 
 fi
 
-python $script_dir/1_integration.py "$input_dir" "$output_dir" "$prob_cutoff"
+python $script_dir/_summarize.py "$input_dir" "$output_dir" "$prob_cutoff"
 
 exit 0
