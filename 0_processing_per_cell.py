@@ -12,6 +12,7 @@ path_linear_model = sys.argv[3]
 cnv_name = sys.argv[4]
 mat_name = sys.argv[5]
 input_dir = sys.argv[6]
+output_dir = sys.argv[7]
 # %%
 
 cell_name = cell_dir.split('/')[-1]
@@ -19,8 +20,9 @@ sample_name = input_dir.split('/')[-1]
 
 path_bed_graph = cell_dir + "/" + cnv_name
 path_contact_matrix = cell_dir + "/" + mat_name
-output_directory = script_dir + "/" + "ecDNA_prediction_" + sample_name
-output_file_path = output_directory + '/' + cell_name + '.txt'
+
+prediction_dir = output_dir + "/" + "ecDNA_prediction_" + sample_name
+output_file_path = prediction_dir + '/' + cell_name + '.txt'
 
 if (not os.path.exists(path_bed_graph)) or (not os.path.exists(path_contact_matrix)):
     print("Cell", cell_name, "error: one or more file(s) not exist.")
@@ -83,8 +85,8 @@ res['pred'] = 1 / (1 + np.exp(-res['eta']))
 res.loc[res['gini'].isna(), 'pred'] = 0
 
 # %%
-if not os.path.exists(output_directory):
-    os.makedirs(output_directory)
+if not os.path.exists(prediction_dir):
+    os.makedirs(prediction_dir)
 
 res.to_csv(output_file_path, sep='\t', index=False, header=True, quoting=0)
 

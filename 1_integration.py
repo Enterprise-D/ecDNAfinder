@@ -3,28 +3,29 @@ import sys
 
 import pandas as pd
 
-cell_directory = sys.argv[1]
-script_directory = sys.argv[2]
-input_directory = sys.argv[3]
-prob_cutoff = float(sys.argv[4])
+cell_dir = sys.argv[1]
+script_dir = sys.argv[2]
+input_dir = sys.argv[3]
+output_dir = sys.argv[4]
+prob_cutoff = float(sys.argv[5])
 
-cell_name = cell_directory.split('/')[-1]
-sample_name = input_directory.split('/')[-1]
+cell_name = cell_dir.split('/')[-1]
+sample_name = input_dir.split('/')[-1]
 
-prediction_directory = script_directory + "/" + "ecDNA_prediction_" + sample_name
+prediction_dir = output_dir + "/" + "ecDNA_prediction_" + sample_name
 
-output_directory = script_directory + "/" + "ecDNA_summary_" + sample_name
+summary_dir = output_dir + "/" + "ecDNA_summary_" + sample_name
 
 # %%
 
-prediction_file_list = os.listdir(prediction_directory)
+prediction_file_list = os.listdir(prediction_dir)
 
-cell_file_list = os.listdir(input_directory)
+cell_file_list = os.listdir(input_dir)
 cell_file_list = [file for file in cell_file_list if not file.lower().endswith('.ds_store')]  # for macOS compatibility
 
 # %%
 
-a = pd.read_table(prediction_directory + "/" + prediction_file_list[0], header=0)
+a = pd.read_table(prediction_dir + "/" + prediction_file_list[0], header=0)
 coord = a.iloc[:, 0:3]
 
 # %%
@@ -38,7 +39,7 @@ m_pred = m_cnv.copy()
 
 # Loop through ann and read data from files
 for i, cell in enumerate(prediction_file_list):
-    res = pd.read_table(prediction_directory + "/" + cell, header=0)
+    res = pd.read_table(prediction_dir + "/" + cell, header=0)
 
     m_cnv[cell] = res['CNV']
     m_ratio[cell] = res['inter.intra.log2ratio']
@@ -56,14 +57,14 @@ final_pred = pd.concat([coord, m_pred], axis=1)
 
 # %%
 
-if not os.path.exists(output_directory):
-    os.makedirs(output_directory)
+if not os.path.exists(summary_dir):
+    os.makedirs(summary_dir)
 
 # Write results to files
-final_cnv.to_csv(f'{output_directory}/{sample_name}_cnv.txt', sep='\t', index=False)
-final_ratio.to_csv(f'{output_directory}/{sample_name}_ratio.txt', sep='\t', index=False)
-final_gini.to_csv(f'{output_directory}/{sample_name}_gini.txt', sep='\t', index=False)
-final_pred.to_csv(f'{output_directory}/{sample_name}_pred.txt', sep='\t', index=False)
+final_cnv.to_csv(f'{summary_dir}/{sample_name}_cnv.txt', sep='\t', index=False)
+final_ratio.to_csv(f'{summary_dir}/{sample_name}_ratio.txt', sep='\t', index=False)
+final_gini.to_csv(f'{summary_dir}/{sample_name}_gini.txt', sep='\t', index=False)
+final_pred.to_csv(f'{summary_dir}/{sample_name}_pred.txt', sep='\t', index=False)
 
 # %%
 binary_pred = final_pred.iloc[:, 3:].copy()
@@ -76,7 +77,7 @@ freq = count / len(binary_pred.columns)
 final_count_freq = pd.concat([coord, count, freq], axis=1)
 final_count_freq.columns = ['chr', 'start', 'end', 'count', 'freq']
 
-final_count_freq.to_csv(f'{output_directory}/{sample_name}_count_freq.txt', sep='\t', index=False)
+final_count_freq.to_csv(f'{summary_dir}/{sample_name}_count_freq.txt', sep='\t', index=False)
 
 # %%
 

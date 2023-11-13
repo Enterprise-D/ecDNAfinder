@@ -3,18 +3,15 @@
 script_path="$(readlink -f "$0")"
 script_dir="$(dirname "$script_path")"
 
-while getopts "i:p:t:" option; do
+while getopts "i:o:p:t:" option; do
   case "${option}" in
   i) input_dir=${OPTARG} ;;  # Input directory
+  o) output_dir=${OPTARG} ;;  # Output directory
   p) prob_cutoff=${OPTARG} ;;  # Probability cutoff
   t) max_cores=${OPTARG} ;;  # Max cores for parallel processing
   \?)
-    echo "Invalid option: -$OPTARG" >&2
-    exit 1
     ;;
   :)
-    echo "Option -$OPTARG requires an argument." >&2
-    exit 1
     ;;
   esac
 done
@@ -27,8 +24,8 @@ mat_name="matrix.mtx"
 lm_path=$script_dir"/coef_model_brain.txt"
 ####################
 
-if [[ -z $script_dir || -z $lm_path || -z $cnv_name || -z $mat_name || -z $input_dir || -z $prob_cutoff ]]; then
-  echo "Still missing one or more internal or external arguments." >&2
+if [[ -z $script_dir || -z $lm_path || -z $cnv_name || -z $mat_name || -z $input_dir || -z $prob_cutoff || -z $output_dir ]]; then
+  echo "Missing one or more internal or external arguments." >&2
   exit 1
 fi
 
@@ -41,16 +38,17 @@ export cnv_name
 export mat_name
 export input_dir
 export prob_cutoff
+export output_dir
 
 execute_command() {
   cell_dir="$1"
-  python $script_dir/0_processing_per_cell.py "$cell_dir" "$script_dir" "$lm_path" "$cnv_name" "$mat_name" "$input_dir"
+  python $script_dir/0_processing_per_cell.py "$cell_dir" "$script_dir" "$lm_path" "$cnv_name" "$mat_name" "$input_dir" "$output_dir"
 }
 
 export -f execute_command
 
 echo "$directories" | parallel -j $max_cores execute_command
 
-python $script_dir/1_integration.py "$cell_dir" "$script_dir" "$input_dir" "$prob_cutoff"
+python $script_dir/1_integration.py "$cell_dir" "$script_dir" "$input_dir" "$output_dir" "$prob_cutoff"
 
 exit 0
