@@ -77,9 +77,9 @@ DATA_cnv.txt         DATA_pred.txt
 DATA_count_freq.txt  DATA_ratio.txt
 DATA_gini.txt
 ```
-Seek `single_cell_LC675_pred.txt` for the final prediction result.
+Seek `DATA_pred.txt` for the final prediction result.
 
-Seek `single_cell_LC675_count_freq.txt` for the contact frequency information summary.
+Seek `DATA_count_freq.txt` for the contact frequency information summary.
 
 ### 2. Manhattan plot
 
