@@ -1,6 +1,8 @@
 library("CMplot")
 
-a <- read.table('single_cell_LC675_count_freq.txt', header = T)
+count_freq_file = "/Users/jiachensun/Desktop/single_cell_LC675_count_freq.txt"
+
+a <- read.table(count_freq_file, header = T)
 for (i in seq_len(nrow(a))) {
   a$chr[i] <- strsplit(as.character(a$chr[i]), split = 'chr')[[1]][2]
 }
