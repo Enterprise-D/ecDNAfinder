@@ -41,19 +41,25 @@ prediction_dir = output_dir + "/" + "ecDNA_prediction_" + sample_name + '_' + pr
 output_file_path = prediction_dir + '/' + cell_name + '.txt'
 
 if (not os.path.exists(path_bed_graph)) or (not os.path.exists(path_contact_matrix)):
-    print("Cell", cell_name, "error: one or more file(s) not exist. Exiting.")
+    print("Cell", cell_name, "error: one or more file(s) not exist. Skipped.")
     exit(1)
 
 if os.path.exists(output_file_path):
     print("Cell", cell_name, "error: already processed. Skipped.")
-    exit(2)
+    exit(3)
 
 # %%
-res = pd.read_table(path_bed_graph, header=None)
-mat = pd.read_table(path_contact_matrix)
+try:
+    res = pd.read_table(path_bed_graph, header=None)
+    mat = pd.read_table(path_contact_matrix)
+except Exception as e:
+    # Print or log the specific error message
+    print("Cell", cell_name, "error: one or more file(s) not valid. Skipped.")
+    # Raise a custom error
+    exit(1)
 
 if len(res) == 0 or len(mat) == 0:
-    print("Cell", cell_name, "error: one or more file(s) not valid. Exiting.")
+    print("Cell", cell_name, "error: one or more file(s) not valid. Skipped.")
     exit(1)
 
 # %%
