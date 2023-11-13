@@ -28,7 +28,7 @@ lm_path=$script_dir"/coef_model_brain.txt"
 ####################
 
 if [[ -z $script_dir || -z $lm_path || -z $cnv_name || -z $mat_name || -z $input_dir || -z $prob_cutoff ]]; then
-  echo "Still missing one or more arguments." >&2
+  echo "Still missing one or more internal or external arguments." >&2
   exit 1
 fi
 
