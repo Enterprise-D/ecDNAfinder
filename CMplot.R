@@ -1,6 +1,6 @@
 library("CMplot")
 
-a <- read.table(paste('ecDNA_summary_LC675_DATA/LC675_DATA_count_freq.txt', sep = ''), head = T)
+a <- read.table('single_cell_LC675_count_freq.txt', header = T)
 for (i in seq_len(nrow(a))) {
   a$chr[i] <- strsplit(as.character(a$chr[i]), split = 'chr')[[1]][2]
 }
@@ -19,5 +19,3 @@ CMplot(b, plot.type = "m", col = c("grey30", "grey60"), LOG10 = FALSE, ylim = c(
        chr.den.col = NULL, signal.col = c("red", "orange"), signal.cex = c(1.5, 1.5), signal.pch = c(19, 19),
        main = "LC675", ylab = 'Proportion', axis.cex = 0.7,
        file = "jpg", file.name = "LC675", dpi = 300, file.output = TRUE, verbose = TRUE, width = 14, height = 6)
-
-

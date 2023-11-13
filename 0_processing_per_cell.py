@@ -13,6 +13,22 @@ cnv_name = sys.argv[4]
 mat_name = sys.argv[5]
 input_dir = sys.argv[6]
 output_dir = sys.argv[7]
+prob_cutoff = sys.argv[8]
+
+# %%
+
+if cell_dir.endswith('/'):
+    cell_dir = cell_dir.rstrip('/')
+
+if script_dir.endswith('/'):
+    script_dir = script_dir.rstrip('/')
+
+if input_dir.endswith('/'):
+    input_dir = input_dir.rstrip('/')
+
+if output_dir.endswith('/'):
+    output_dir = output_dir.rstrip('/')
+
 # %%
 
 cell_name = cell_dir.split('/')[-1]
@@ -21,25 +37,30 @@ sample_name = input_dir.split('/')[-1]
 path_bed_graph = cell_dir + "/" + cnv_name
 path_contact_matrix = cell_dir + "/" + mat_name
 
-prediction_dir = output_dir + "/" + "ecDNA_prediction_" + sample_name
+prediction_dir = output_dir + "/" + "ecDNA_prediction_" + sample_name + '_' + prob_cutoff
 output_file_path = prediction_dir + '/' + cell_name + '.txt'
 
 if (not os.path.exists(path_bed_graph)) or (not os.path.exists(path_contact_matrix)):
-    print("Cell", cell_name, "error: one or more file(s) not exist.")
+    print("Cell", cell_name, "error: one or more file(s) not exist. Exiting.")
     exit(1)
+
+if os.path.exists(output_file_path):
+    print("Cell", cell_name, "error: already processed. Skipped.")
+    exit(2)
 
 # %%
 res = pd.read_table(path_bed_graph, header=None)
 mat = pd.read_table(path_contact_matrix)
 
 if len(res) == 0 or len(mat) == 0:
-    print("Cell", cell_name, "error: one or more file(s) not valid.")
-    exit(2)
+    print("Cell", cell_name, "error: one or more file(s) not valid. Exiting.")
+    exit(1)
+
 # %%
 num_chr = 23
 name_chr = ['chr' + str(i) for i in range(1, 23)] + ['chrX']
 
-res.columns = ['chr', 'start', 'end', 'CNV']
+res.columns = ['chr', 'start', 'end', 'cnv']
 
 res['num.intra.bin'] = 0
 res['num.inter.bin'] = 0
@@ -90,4 +111,4 @@ if not os.path.exists(prediction_dir):
 
 res.to_csv(output_file_path, sep='\t', index=False, header=True, quoting=0)
 
-print("Cell", cell_name, "processed.")
+print("Cell", cell_name, "processed. Exiting.")

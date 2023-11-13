@@ -3,18 +3,19 @@ import sys
 
 import pandas as pd
 
-cell_dir = sys.argv[1]
-script_dir = sys.argv[2]
-input_dir = sys.argv[3]
-output_dir = sys.argv[4]
-prob_cutoff = float(sys.argv[5])
+input_dir = sys.argv[1]
+output_dir = sys.argv[2]
+prob_cutoff = sys.argv[3]
 
-cell_name = cell_dir.split('/')[-1]
+if input_dir.endswith('/'):
+    input_dir = input_dir.rstrip('/')
+
+if output_dir.endswith('/'):
+    output_dir = output_dir.rstrip('/')
+
 sample_name = input_dir.split('/')[-1]
-
-prediction_dir = output_dir + "/" + "ecDNA_prediction_" + sample_name
-
-summary_dir = output_dir + "/" + "ecDNA_summary_" + sample_name
+prediction_dir = output_dir + "/" + "ecDNA_prediction_" + sample_name + '_' + prob_cutoff
+summary_dir = output_dir + "/" + "ecDNA_summary_" + sample_name + '_' + prob_cutoff
 
 # %%
 
@@ -41,7 +42,7 @@ m_pred = m_cnv.copy()
 for i, cell in enumerate(prediction_file_list):
     res = pd.read_table(prediction_dir + "/" + cell, header=0)
 
-    m_cnv[cell] = res['CNV']
+    m_cnv[cell] = res['cnv']
     m_ratio[cell] = res['inter.intra.log2ratio']
     m_gini[cell] = res['gini']
     m_pred[cell] = res['pred']
@@ -51,9 +52,16 @@ for i, cell in enumerate(prediction_file_list):
 
 # Concatenate output dataframes with 'out'
 final_cnv = pd.concat([coord, m_cnv], axis=1)
+final_cnv.columns = final_cnv.columns.str.replace('.txt', '')
+
 final_ratio = pd.concat([coord, m_ratio], axis=1)
+final_ratio.columns = final_ratio.columns.str.replace('.txt', '')
+
 final_gini = pd.concat([coord, m_gini], axis=1)
+final_gini.columns = final_gini.columns.str.replace('.txt', '')
+
 final_pred = pd.concat([coord, m_pred], axis=1)
+final_pred.columns = final_pred.columns.str.replace('.txt', '')
 
 # %%
 
@@ -67,9 +75,10 @@ final_gini.to_csv(f'{summary_dir}/{sample_name}_gini.txt', sep='\t', index=False
 final_pred.to_csv(f'{summary_dir}/{sample_name}_pred.txt', sep='\t', index=False)
 
 # %%
+
 binary_pred = final_pred.iloc[:, 3:].copy()
 for i in range(len(binary_pred.columns)):
-    binary_pred[binary_pred.columns[i]] = (binary_pred[binary_pred.columns[i]] > prob_cutoff).astype(int)
+    binary_pred[binary_pred.columns[i]] = (binary_pred[binary_pred.columns[i]] > float(prob_cutoff)).astype(int)
 
 count = binary_pred.sum(axis=1)
 freq = count / len(binary_pred.columns)
@@ -78,7 +87,5 @@ final_count_freq = pd.concat([coord, count, freq], axis=1)
 final_count_freq.columns = ['chr', 'start', 'end', 'count', 'freq']
 
 final_count_freq.to_csv(f'{summary_dir}/{sample_name}_count_freq.txt', sep='\t', index=False)
-
-# %%
 
 print("Sample", sample_name, "summarized.")

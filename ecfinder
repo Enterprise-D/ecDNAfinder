@@ -9,10 +9,7 @@ while getopts "i:o:p:t:" option; do
   o) output_dir=${OPTARG} ;;  # Output directory
   p) prob_cutoff=${OPTARG} ;;  # Probability cutoff
   t) max_cores=${OPTARG} ;;  # Max cores for parallel processing
-  \?)
-    ;;
-  :)
-    ;;
+  \?) ;;
   esac
 done
 
@@ -42,13 +39,13 @@ export output_dir
 
 execute_command() {
   cell_dir="$1"
-  python $script_dir/0_processing_per_cell.py "$cell_dir" "$script_dir" "$lm_path" "$cnv_name" "$mat_name" "$input_dir" "$output_dir"
+  python $script_dir/0_processing_per_cell.py "$cell_dir" "$script_dir" "$lm_path" "$cnv_name" "$mat_name" "$input_dir" "$output_dir" "$prob_cutoff"
 }
 
 export -f execute_command
 
 echo "$directories" | parallel -j $max_cores execute_command
 
-python $script_dir/1_integration.py "$cell_dir" "$script_dir" "$input_dir" "$output_dir" "$prob_cutoff"
+python $script_dir/1_integration.py "$input_dir" "$output_dir" "$prob_cutoff"
 
 exit 0
