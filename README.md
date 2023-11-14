@@ -1,4 +1,4 @@
-# ecfinder
+# 
 
 **Last updated: November 13, 2023**
 
@@ -21,27 +21,27 @@
 * **Copy number variation data**
 * **Trained linear model**
 
-Note: see **File format requirements** for examples. File names are currently hard-coded in `ecfinder` script. Modify them if needed.
+Note: see **File format requirements** for examples. File names are currently hard-coded in `ecDNAfinder` script. Modify them if needed.
 
 ## Installation
 
-We recommend to run `ecfinder` in a conda/mamba environment.
+We recommend to run `ecDNAfinder` in a conda/mamba environment.
 ```bash
-conda create -n ecfinder python parallel pandas numpy
+conda create -n ecDNAfinder python parallel pandas numpy
 pip install pygini
 ```
 Then clone this repository to a local directory.
 
 ## Usage
 
-### 1. ecfinder
+### 1. ecDNAfinder
 
 **Example:**
 
 ```bash
-sh ecfinder -i DATA -o OUT -p 0.95 -t 16
+sh ecDNAfinder -i DATA -o OUT -p 0.95 -t 16
 
-sh ecfinder -i DATA -o OUT -p 0.95 -t 16 -s true
+sh ecDNAfinder -i DATA -o OUT -p 0.95 -t 16 -s true
 ```
 
 **Arguments:**
@@ -135,6 +135,10 @@ chr1	1000000	2000000	chr20	61000000	62000000	1
 
 * O. Tange (2011): GNU Parallel - The Command-Line Power Tool, The USENIX Magazine, February 2011:42-47.
 * Yin, L. et al. rMVP: A Memory-efficient, Visualization-enhanced, and Parallel-accelerated tool for Genome-Wide Association Study, Genomics, Proteomics & Bioinformatics (2021), doi: 10.1016/j.gpb.2020.10.007.
-* The pandas development team (2020). pandas-dev/pandas: Pandas (Version latest). doi:10.5281/zenodo.3509134
-* Harris, C.R., Millman, K.J., van der Walt, S.J. et al. Array programming with NumPy. Nature 585, 357–362 (2020). DOI: 10.1038/s41586-020-2649-2. (Publisher link).
-* mckib2. (n.d.). Mckib2/Pygini: Compute the gini index. GitHub. https://github.com/mckib2/pygini 
+* The pandas development team (2020). pandas-dev/pandas: Pandas (Version latest). doi:10.5281/zenodo.3509134.
+* Harris, C.R., Millman, K.J., van der Walt, S.J. et al. Array programming with NumPy. Nature 585, 357–362 (2020). DOI: 10.1038/s41586-020-2649-2.
+* mckib2. (n.d.). Mckib2/Pygini: Compute the gini index. GitHub. https://github.com/mckib2/pygini
+
+### Contact Us
+
+For any question, contact Ming Hu (hum@ccf.org), Jiachen Sun (jxs2269@case.edu), or submit an issue on GitHub.

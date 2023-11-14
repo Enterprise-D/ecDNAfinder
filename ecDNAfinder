@@ -31,7 +31,7 @@ summary_only_lower=$(echo "$summary_only" | tr '[:upper:]' '[:lower:]')
 
 if [[ "$summary_only_lower" != "1" && "$summary_only_lower" != "true" && "$summary_only_lower" != "t" ]]; then
   echo "Processing mode."
-  echo "ecfinder found $(echo "$directories" | wc -l | sed 's/^[[:space:]]*//') cell(s)"
+  echo "ecDNAfinder found $(echo "$directories" | wc -l | sed 's/^[[:space:]]*//') cell(s)"
 
   export script_dir
   export cell_name
