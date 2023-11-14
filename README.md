@@ -2,10 +2,6 @@
 
 **Last updated: November 13, 2023**
 
-## Introduction
-
-(in progress)
-
 ## Prerequisites
 
 ### Packages
@@ -21,7 +17,7 @@
 
 ### Data
 
-* **Single-cell Hi-C contact matrix**
+* **Single-cell Hi-C contact matrices**
 * **Copy number variation data**
 * **Trained linear model**
 
@@ -119,7 +115,7 @@ chr1	8000000	9000000	0.9503856707800673
 chr1	9000000	10000000	1.4120115495979793
 ```
 
-#### 2.1 Single-cell copy Hi-C contact matrix
+#### 2.1 Single-cell copy Hi-C contact matrices
 ```
 > head matrix.mtx
 
