@@ -79,7 +79,7 @@ Seek `DATA_count_freq.txt` for the contact frequency information summary.
 
 ### 2. Manhattan plot
 
-Note: please run `CMPlot.R` in the interactive mode for flexibility. modify variable assignment `count_freq_file` to read countact frequency file.
+Note: please run `CMPlot.R` in the interactive mode for flexibility. modify variable assignment `count_freq_file` to read count frequency file.
 
 ## Appendix
 
