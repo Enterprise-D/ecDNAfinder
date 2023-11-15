@@ -17,11 +17,18 @@
 
 ### Data
 
-* **Single-cell Hi-C contact matrices**
 * **Copy number variation data**
-* **Trained linear model**
+* **Single-cell Hi-C contact matrices**
+* **Trained logistic regression model**
 
-Note: see **File format requirements** for examples. File names are currently hard-coded in `ecDNAfinder` script. Modify them if needed.
+Note: see **File format requirements** for examples. File names are currently hard-coded in `ecDNAfinder` script. Modify in the section below if needed:
+```
+####################
+cnv_name="1000000.CNV.bedGraph"
+mat_name="matrix.mtx"
+lm_dir=$script_dir"/coef_model_brain.txt"
+####################
+```
 
 ## Installation
 
@@ -39,9 +46,9 @@ Then clone this repository to a local directory.
 **Example:**
 
 ```bash
-sh ecDNAfinder -i DATA -o OUT -p 0.95 -t 16
+sh ecDNAfinder -i example_data -o example_out -p 0.95 -t 16
 
-sh ecDNAfinder -i DATA -o OUT -p 0.95 -t 16 -s true
+sh ecDNAfinder -i example_data -o example_out -p 0.95 -t 16 -s true
 ```
 
 **Arguments:**
@@ -50,32 +57,34 @@ sh ecDNAfinder -i DATA -o OUT -p 0.95 -t 16 -s true
 
 `-o` output directory. See **Directory hierarchy requirements** for details.
 
-`-p` cutoff threshold. Value represents probability from the logistic regression.
+`-p` probability cutoff threshold.
 
-`-t` number of threads. Current version occasionally crashes if the number of threads is too large.
+`-t` number of threads.
 
 `-s` (optional) summary-only mode. Use this option to skip redundant cell processing.
+
+Note: current version will ignore all interactions that involve chromosome Y.
 
 **Output example:**
 
 ```
-> ls -R OUT
+> ls -R example_out
 
-OUT:
-ecDNA_prediction_DATA_0.95  ecDNA_summary_DATA_0.95
+example_out:
+ecDNA_prediction_example_data_0.95  ecDNA_summary_example_data_0.95
 
-OUT/ecDNA_prediction_DATA_0.95:
+example_out/ecDNA_prediction_example_data_0.95:
 LC675_AAACGAAAGGGTTCTT.txt  LC675_GTTACGAGTATGGGTG.txt
 ...
 
-OUT/ecDNA_summary_DATA_0.95:
-DATA_cnv.txt         DATA_pred.txt
-DATA_count_freq.txt  DATA_ratio.txt
-DATA_gini.txt
+example_out/ecDNA_summary_example_data_0.95:
+example_data_cnv.txt         example_data_pred.txt
+example_data_count_freq.txt  example_data_ratio.txt
+example_data_gini.txt
 ```
-Seek `DATA_pred.txt` for the final prediction result.
+Seek `example_data_pred.txt` for the final prediction result.
 
-Seek `DATA_count_freq.txt` for the contact frequency information summary.
+Seek `example_data_count_freq.txt` for the contact frequency information summary.
 
 ### 2. Manhattan plot
 
@@ -87,13 +96,13 @@ Note: please run `CMPlot.R` in the interactive mode for flexibility. modify vari
 
 **Minimal requirements:**
 ```
-> ls -R DATA
+> ls -R example_data
 
-DATA:
+example_data:
 LC675_AAACGAAAGGGTTCTT  LC675_CAGCCTTAGCTGATTC
 ...
 
-DATA/LC675_AAACGAAAGGGTTCTT:
+example_data/LC675_AAACGAAAGGGTTCTT:
 1000000.CNV.bedGraph                       matrix.mtx
 ```
 
@@ -114,6 +123,12 @@ chr1	7000000	8000000	1.3324624442235051
 chr1	8000000	9000000	0.9503856707800673
 chr1	9000000	10000000	1.4120115495979793
 ```
+
+Note: `_process.py` will add column names as:
+```
+'chr', 'start', 'end', 'cnv'
+```
+Thus, the columns must correspond.
 
 #### 2.1 Single-cell copy Hi-C contact matrices
 ```

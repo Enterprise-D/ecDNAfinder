@@ -1,4 +1,8 @@
 import os
+os.environ['OPENBLAS_NUM_THREADS'] = '1'
+# don't know why but solved the large-scale parallelization issue on HPC
+# https://stackoverflow.com/questions/52026652/openblas-blas-thread-init-pthread-create-resource-temporarily-unavailable
+
 import sys
 
 import numpy as np
@@ -8,7 +12,7 @@ import pygini
 # %%
 cell_dir = sys.argv[1]
 script_dir = sys.argv[2]
-path_linear_model = sys.argv[3]
+lm_dir = sys.argv[3]
 cnv_name = sys.argv[4]
 mat_name = sys.argv[5]
 input_dir = sys.argv[6]
@@ -68,19 +72,22 @@ name_chr = ['chr' + str(i) for i in range(1, 23)] + ['chrX']
 
 res.columns = ['chr', 'start', 'end', 'cnv']
 
+mat = mat[(mat['chrom1'] != 'chrY') & (mat['chrom2'] != 'chrY')]
+res = res[res['chr'] != 'chrY']
+
 res['num.intra.bin'] = 0
 res['num.inter.bin'] = 0
 # %%
 rec = pd.DataFrame(np.zeros((len(res), num_chr), dtype=int), columns=name_chr)
 # %%
+
+# Any way to vectorize this?
 for j in range(len(res)):
-    overlap = mat[
-        (mat['chrom1'] == res['chr'][j]) & (mat['start1'] == res['start'][j]) | (mat['chrom2'] == res['chr'][j]) & (
-                mat['start2'] == res['start'][j])]
+    overlap = mat[(mat['chrom1'] == res['chr'][j]) & (mat['start1'] == res['start'][j]) | (mat['chrom2'] == res['chr'][j]) & (mat['start2'] == res['start'][j])]
     intra = overlap[(overlap['chrom1'] == overlap['chrom2']) & (overlap['start1'] == res['start'][j])]
     inter = overlap[(overlap['chrom1'] != overlap['chrom2']) & (overlap['chrom1'] == res['chr'][j])]
 
-    inter = inter[(inter['chrom1'] != 'chrY') & (inter['chrom2'] != 'chrY')]
+    #inter = inter[(inter['chrom1'] != 'chrY') & (inter['chrom2'] != 'chrY')]
 
     res.at[j, 'num.intra.bin'] = len(intra)
     res.at[j, 'num.inter.bin'] = len(inter)
@@ -91,15 +98,13 @@ for j in range(len(res)):
 # %%
 res['gini'] = np.nan
 
-for j in range(len(res)):
-    gbin = np.array(rec.iloc[j, :])
-    if np.sum(gbin) > 0:
-        gini_coefficient = pygini.gini(gbin.astype("float64"))  # Calculate Gini coefficient
-        res.at[j, 'gini'] = gini_coefficient
+gini_values = np.apply_along_axis(lambda x: pygini.gini(x.astype("float64")), axis=1, arr=rec.values)
+non_zero_sum_rows = rec.sum(axis=1) > 0
+res.loc[non_zero_sum_rows, 'gini'] = gini_values[non_zero_sum_rows]
 # %%
-res['inter.intra.log2ratio'] = round(np.log2(res['num.inter.bin'] + 1) - np.log2(res['num.intra.bin'] + 1), 4)
+res['log2ratio'] = round(np.log2(res['num.inter.bin'] + 1) - np.log2(res['num.intra.bin'] + 1), 4)
 # %%
-linear_model = pd.read_csv(path_linear_model, sep='\t', header=0)
+linear_model = pd.read_csv(lm_dir, sep='\t', header=0)
 # %%
 input = res.iloc[:, [0, 1, 2, 3, 7, 6]]
 input.columns = ['chr', 'start', 'end', 'cnv', 'ratio', 'gini']
