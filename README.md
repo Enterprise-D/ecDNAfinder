@@ -70,11 +70,11 @@ sh ecDNAfinder -i <INPUT_PATH> -o <OUTPUT_PATH> -p <PROBABILITY_THRESHOLD> -t <T
 
 `-o` output directory. See **Directory hierarchy requirements** for details.
 
-`-p` probability cutoff threshold. 0.95 is recommended.
+`-p` probability cutoff threshold. 0.95 is recommended by default.
 
-`-t` number of threads.
+`-t` number of threads. Must be an integer.
 
-`-s` (optional) summary-only mode. Use this option to skip redundant cell processing.
+`-s` (optional) summary-only mode. Use this option to skip redundant cell processing (for example, if you need to change the probability cutoff threshold and re-summarize).
 
 Note: current version will ignore all interactions that involve chromosome Y (`'chrY'`).
 
