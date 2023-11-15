@@ -58,12 +58,10 @@ count_freq_file = "example_out/ecDNA_summary_example_data_0.95/example_data_coun
 
 ### 1. ecDNAfinder
 
-**Example:**
-
 ```bash
-sh ecDNAfinder -i <dire> -o example_out -p 0.95 -t 32
+sh ecDNAfinder -i <INPUT_PATH> -o <OUTPUT_PATH> -p <PROBABILITY_THRESHOLD> -t <THREADS> -s <BOOLEAN_OPTION>
 
-sh ecDNAfinder -i example_data -o example_out -p 0.95 -t 32 -s true
+sh ecDNAfinder -i <INPUT_PATH> -o <OUTPUT_PATH> -p <PROBABILITY_THRESHOLD> -t <THREADS>
 ```
 
 **Arguments:**
@@ -72,7 +70,7 @@ sh ecDNAfinder -i example_data -o example_out -p 0.95 -t 32 -s true
 
 `-o` output directory. See **Directory hierarchy requirements** for details.
 
-`-p` probability cutoff threshold.
+`-p` probability cutoff threshold. 0.95 is recommended.
 
 `-t` number of threads.
 
