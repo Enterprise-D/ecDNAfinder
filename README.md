@@ -59,9 +59,9 @@ count_freq_file = "example_out/ecDNA_summary_example_data_0.95/example_data_coun
 ### 1. ecDNAfinder
 
 ```bash
-sh ecDNAfinder -i <INPUT_PATH> -o <OUTPUT_PATH> -p <PROBABILITY_THRESHOLD> -t <THREADS> -s <BOOLEAN_OPTION>
-
 sh ecDNAfinder -i <INPUT_PATH> -o <OUTPUT_PATH> -p <PROBABILITY_THRESHOLD> -t <THREADS>
+
+sh ecDNAfinder -i <INPUT_PATH> -o <OUTPUT_PATH> -p <PROBABILITY_THRESHOLD> -t <THREADS> -s <BOOLEAN_OPTION>
 ```
 
 **Arguments:**
