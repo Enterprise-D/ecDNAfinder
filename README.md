@@ -43,7 +43,7 @@ Then clone this repository to a local directory.
 
 1. Download the example data, LC675 brain tumor dataset, and extract to a local directory.
 
-2. Run command below (modify -t according to the number of threads available):
+2. Run command below (modify `-t` according to the number of threads available):
 ```bash
 sh ecDNAfinder -i example_data -o example_out -p 0.95 -t 32
 ```
