@@ -14,7 +14,7 @@ if output_dir.endswith('/'):
     output_dir = output_dir.rstrip('/')
 
 sample_name = input_dir.split('/')[-1]
-prediction_dir = output_dir + "/" + "ecDNA_prediction_" + sample_name + '_' + prob_cutoff
+prediction_dir = output_dir + "/" + "ecDNA_prediction_" + sample_name
 summary_dir = output_dir + "/" + "ecDNA_summary_" + sample_name + '_' + prob_cutoff
 
 # %%

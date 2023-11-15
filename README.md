@@ -84,9 +84,9 @@ Note: current version will ignore all interactions that involve chromosome Y (`'
 > ls -R example_out
 
 example_out:
-ecDNA_prediction_example_data_0.95  ecDNA_summary_example_data_0.95
+ecDNA_prediction_example_data  ecDNA_summary_example_data_0.95
 
-example_out/ecDNA_prediction_example_data_0.95:
+example_out/ecDNA_prediction_example_data:
 LC675_AAACGAAAGGGTTCTT.txt  LC675_GTTACGAGTATGGGTG.txt
 ...
 

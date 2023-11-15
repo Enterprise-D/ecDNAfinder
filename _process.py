@@ -17,7 +17,6 @@ cnv_name = sys.argv[4]
 mat_name = sys.argv[5]
 input_dir = sys.argv[6]
 output_dir = sys.argv[7]
-prob_cutoff = sys.argv[8]
 
 # %%
 
@@ -41,7 +40,7 @@ sample_name = input_dir.split('/')[-1]
 path_bed_graph = cell_dir + "/" + cnv_name
 path_contact_matrix = cell_dir + "/" + mat_name
 
-prediction_dir = output_dir + "/" + "ecDNA_prediction_" + sample_name + '_' + prob_cutoff
+prediction_dir = output_dir + "/" + "ecDNA_prediction_" + sample_name
 output_file_path = prediction_dir + '/' + cell_name + '.txt'
 
 if (not os.path.exists(path_bed_graph)) or (not os.path.exists(path_contact_matrix)):
