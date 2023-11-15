@@ -39,6 +39,21 @@ pip install pygini
 ```
 Then clone this repository to a local directory.
 
+## Test Run
+
+1. Download the example data, LC675 brain tumor dataset, and extract to a local directory.
+
+2. Run command below (modify -t according to the number of threads available):
+```bash
+sh ecDNAfinder -i example_data -o example_out -p 0.95 -t 32
+```
+3. Find the `example_data_count_freq.txt` in directory `example_out/ecDNA_summary_example_data_0.95`  and modify the following line with the actual path in `CMPlot.R`:
+```R
+count_freq_file = "example_out/ecDNA_summary_example_data_0.95/example_data_count_freq.txt"
+```
+4. Then run `CMPlot.R` in interactive mode and generate a plot. The Manhattan plot should look like this:
+   ![]()
+
 ## Usage
 
 ### 1. ecDNAfinder
@@ -46,9 +61,9 @@ Then clone this repository to a local directory.
 **Example:**
 
 ```bash
-sh ecDNAfinder -i example_data -o example_out -p 0.95 -t 16
+sh ecDNAfinder -i <dire> -o example_out -p 0.95 -t 32
 
-sh ecDNAfinder -i example_data -o example_out -p 0.95 -t 16 -s true
+sh ecDNAfinder -i example_data -o example_out -p 0.95 -t 32 -s true
 ```
 
 **Arguments:**
