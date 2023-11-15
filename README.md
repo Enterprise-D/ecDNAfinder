@@ -52,7 +52,7 @@ sh ecDNAfinder -i example_data -o example_out -p 0.95 -t 32
 count_freq_file = "example_out/ecDNA_summary_example_data_0.95/example_data_count_freq.txt"
 ```
 4. Then run `CMPlot.R` in interactive mode and generate a plot. The Manhattan plot should look like this:
-   ![]()
+   ![](https://github.com/Enterprise-D/ecDNAfinder/blob/main/Rect_Manhtn.LC675.jpg)
 
 ## Usage
 
