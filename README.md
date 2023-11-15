@@ -74,7 +74,7 @@ sh ecDNAfinder -i <INPUT_PATH> -o <OUTPUT_PATH> -p <PROBABILITY_THRESHOLD> -t <T
 
 `-t` number of threads. Must be an integer.
 
-`-s` (optional) summary-only mode. Use this option to skip redundant cell processing (for example, if you need to change the probability cutoff threshold and re-summarize).
+`-s` (optional) summary-only mode. Use `-s true` to skip redundant cell processing (for example, if you need to change the probability cutoff threshold and re-summarize).
 
 Note: current version will ignore all interactions that involve chromosome Y (`'chrY'`).
 
