@@ -76,7 +76,7 @@ sh ecDNAfinder -i <INPUT_PATH> -o <OUTPUT_PATH> -p <PROBABILITY_THRESHOLD> -t <T
 
 `-s` (optional) summary-only mode. Use this option to skip redundant cell processing.
 
-Note: current version will ignore all interactions that involve chromosome Y.
+Note: current version will ignore all interactions that involve chromosome Y (`'chrY'`).
 
 **Output example:**
 
